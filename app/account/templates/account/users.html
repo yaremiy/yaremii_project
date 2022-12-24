@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block body %}
+{% if users %}
+<h3 class="text-center mt-4">There are {{users|length}} users</h3>
+<table class="table  table-striped w-75 table-bordered mx-auto mt-4">
+	<tr>
+		<th scope="col">id</th>
+		<th scope="col">username</th>
+		<th scope="col">email</th>
+	</tr>
+	{% for user in users %}
+	<tr>
+		<th scope="row">{{user.id}}</th>
+		<td>{{user.username}}</td>
+		<td>{{user.email}}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% else %}
+<h3>No users</h3>
+{% endif %}
+{% endblock %}

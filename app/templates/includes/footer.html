@@ -1,0 +1,24 @@
+{% block footer %}
+<div class="text-center text-lg-start bg-light text-muted navbar fixed-bottom">
+    {% if time %}
+    <table class="table">
+        <tr>
+            <td>Operating System</td>
+                {% if operating_system == "nt" %}
+                    <td>Windows (nt)</td>
+                {% else %}
+                    <td>{{operating_system}}</td>
+                {% endif %}
+        </tr>
+        <tr>
+            <td>User agent</td>
+            <td>{{user_agent}}</td>
+        </tr>
+        <tr>
+            <td>Current time</td>
+            <td>{{time}}</td>
+        </tr>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %} Task {% endblock %}
+ 
+{% block body %}
+<br>
+<table class="table w-50 table-bordered border border-4 text-center m-auto ">
+    <tr>
+        <th>Task</th>
+        <td>{{task.title}}</td>
+    </tr>
+    <tr>
+        <th>Category</th>
+        <td>{{task.category.name}}</td>
+    </tr>
+    <tr>
+        <th>Created</th>
+        <td>{{task.created}}</td>
+    </tr>
+    <tr>
+        <th>Modified</th>
+        <td>{{task.modified}}</td>
+    </tr>
+    <tr>
+        <th>Deadline</th>
+        <td>{{task.deadline}}</td>
+    </tr>
+    <tr>
+        <th>Priority</th>
+        <td>{{task.priority.name}}</td>
+    </tr>
+    <tr>
+        <th>Progress</th>
+        <td>{{task.progress.name}}</td>
+    </tr>
+    <tr>
+        <th>Owner</th>
+        <td>
+            <a href={{ url_for('task.tasks', id=task.owner_id) }}>
+                {{task.owner.username}}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <th>Collaborators</th>
+        <td>
+        {% for collaborator in task.collaborators %}
+            <a href={{ url_for('task.tasks', id=collaborator.id) }}>
+                {{collaborator.username}}
+            </a>
+            <br>
+        {% endfor %}
+        </tr>
+    </tr>
+</table>
+<br>
+<div class="d-flex flex-row justify-content-between m-auto w-50">
+    <a href={{ url_for('task.update_task', id=task.id) }}>
+        <button type="button" class="btn btn-primary">Edit</button>
+    </a>
+    <a href={{ url_for('task.delete_task', id=task.id) }}>
+        <button type="button" class="btn btn-danger">Delete</button>
+    </a>
+</div>
+<br><br>
+<h3 class="text-center">Description</h3>
+<br>
+<div class="border p-1 w-50 mb-3 m-auto">{{ task.description | safe }}</div>
+<br><br>
+<h3 class="text-center">Comments</h3>
+<a href='#comments'></a>
+{% if not task.comments %}
+    <h4 class="text-center">No comments</h4>
+{% endif %}
+
+
+{% if current_user.id == task.owner.id or current_user in task.collaborators%}
+
+    {% from "_render_field.html" import render_field %}
+
+    <form action="{{ url_for('task.task', id=task.id)}}" method="post" class="w-50 m-auto">
+        {{ form.hidden_tag() }}
+        {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
+        {{ render_field(field, class="form-control") }}
+        {% endfor %}
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    <br><br>
+    {% for comment in task.comments %}
+        <div class='text-align-left w-50 m-auto'>
+            <a href={{ url_for('task.tasks', id=task.owner_id) }}>
+                {{comment.user.username}}
+            </a>
+            <div class="border p-1 mb-3">
+                {{comment.body | safe}}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{{ ckeditor.load() }}
+{{ ckeditor.config(name='description') }}
+
+{% endblock %}

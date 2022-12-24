@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Categories {% endblock %}
+ 
+{% block body %}
+<div class="w-50 m-auto"> 
+<a href={{ url_for('task.create_category') }}>
+    <button class="btn btn-success my-2 ">Create new category</button>
+</a>
+</div> 
+<table class="table w-50 table-bordered border border-4 text-center m-auto">
+	<thead>
+		<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Name</th>
+			<th scope="col">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for category in categories %}
+		<tr>
+			<th scope="row">{{category.id}}</th>
+			<td>{{category.name}}</td>
+			<td>
+				<a href={{ url_for('task.update_category', id=category.id) }} class="text-decoration-none">
+					<button class="btn btn-primary btn-sm">Update</button>
+				</a>
+				<a href={{ url_for('task.delete_category', id=category.id) }} class="text-decoration-none">
+					<button class="btn btn-danger btn-sm">Delete</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+ 
+{% endblock %}

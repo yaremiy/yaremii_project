@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Account {% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center mt-3">
+    <div class="media d-flex flex-row">
+        <img class="rounded-circle account-img" src="{{image_file}}" width="125" height="125">
+        <div class="media-body mx-4">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+            <p class="text-secondary">{{ current_user.about_me }}</p>
+            <p class="text-secondary">Last seen {{ current_user.last_seen }}</p>
+        </div>
+    </div>
+</div><br>
+<h3 class="text-center">Account info</h3>
+
+{% from "_render_field.html" import render_field %}
+
+<form action="{{ url_for('account.account')}}" method="post" class="w-50 m-auto"  enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {% for field in form if field not in [form.submit, form.hidden_tag, form.csrf_token] %}
+    {{ render_field(field, class="form-control") }}
+    {% endfor %}
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<a href={{ url_for('account.reset_password') }} class="d-flex justify-content-center">
+    <button type="button" class="btn btn-primary">Reset password</button>
+</a>
+{% endblock %}

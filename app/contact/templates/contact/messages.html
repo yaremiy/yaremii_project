@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Messages{% endblock %}
+{% block body %}
+<table class="table  table-striped w-75 table-bordered mx-auto mt-4">
+		<tr>
+			<th scope="col">id</th>
+			<th scope="col">name</th>
+			<th scope="col">email</th>
+			<th scope="col">phone</th>
+			<th scope="col">subject</th>
+			<th scope="col">message</th>
+		</tr>
+		{% for message in messages %}
+		<tr>
+			<th scope="row">{{message.id}}</th>
+			<td>{{message.name}}</td>
+			<td>{{message.email}}</td>
+			<td>{{message.phone}}</td>
+			<td>{{message.subject}}</td>
+			<td>{{message.message}}</td>
+		</tr>
+		{% endfor %}
+</table>
+
+{% endblock %}

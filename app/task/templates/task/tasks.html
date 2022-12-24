@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} Tasks {% endblock %}
+
+{% block body %}
+ 
+<h2 class="text-center">{{user.username}}</h2>
+{% if user.id == current_user.id %}
+<div class="m-auto w-75">
+<a href={{ url_for('task.create_task') }} class="text-center">
+    <button class="btn btn-success">Create new task</button>
+</a>
+</div>
+
+{% endif %}
+{% if user.tasks %}
+<h3 class="text-center">Tasks</h3>
+<table class="table w-75 table-bordered border border-4 text-center m-auto">
+	<thead>
+		<tr>
+			<th scope="col">Title</th>
+			<th>Progress</th>
+			<th>Priority</th>
+			<th>Deadline</th>
+			<th>Owner</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for task in user.tasks %}
+		<tr>
+			<th>
+				<a href={{ url_for('task.task', id=task.id) }}>
+					{{task.title}}
+				</a>
+			</th>
+			<td>{{task.progress.name}}</td>
+			<td>{{task.priority.name}}</td>
+			<td>{{task.deadline}}</td>
+			<td>
+				<a href={{ url_for('task.tasks', id=task.owner_id) }}>
+					{{task.owner.username}}
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<h3 class="text-center">No tasks!</h3>
+{% endif %}
+
+{% endblock %}

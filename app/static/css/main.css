@@ -1,0 +1,11 @@
+.container {
+    text-align: center;
+    vertical-align: middle;
+}
+#remember {
+    height: 15px;
+    width: 15px;
+    display:inline-block;
+    position: relative;
+    top: 2.5px;
+}

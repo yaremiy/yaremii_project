@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} Categories {% endblock %}
+ 
+{% block body %}
+ 
+<div class="w-50 m-auto">
+    {% from "_form_helper.html" import form_helper %}
+    {{ form_helper(form, "task.create_category") }}
+</div>
+
+{% endblock %}
