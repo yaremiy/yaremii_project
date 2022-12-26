@@ -33,7 +33,7 @@ def create_app(config_name = 'default'):
     admin.init_app(app, index_view=IndexAdmin())
     from .account.models import User
     from .task.models import Task, Category 
-    admin.add_view(AdminModelView(User, db.session, name='Users', endpoint="users_"))
+    admin.add_view(AdminModelView(User, db.session, name='Users', endpoint="allusers_"))
     admin.add_view(TodoModelView(Task, db.session, name='Tasks', endpoint="tasks_"))
     admin.add_view(AdminModelView(Category, db.session, name='Categories', endpoint="categories_"))
     admin.add_view(CustomFileAdmin(app.static_folder, '/static/', name='Static Files'))
