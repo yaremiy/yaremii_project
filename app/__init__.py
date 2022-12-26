@@ -5,13 +5,17 @@ from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 from flask_jwt_extended import JWTManager
 from config import config
+from flask_admin import Admin
+from .admin.pages import AdminModelView, IndexAdmin, CustomFileAdmin, TodoModelView
 import sqlalchemy
+
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 ckeditor = CKEditor()
 jwt = JWTManager()
+admin = Admin()
 login_manager.login_view = "account.login"
 login_manager.login_message_category = "info"
 
@@ -25,6 +29,14 @@ def create_app(config_name = 'default'):
     login_manager.init_app(app)
     ckeditor.init_app(app)
     jwt.init_app(app)
+
+    admin.init_app(app, index_view=IndexAdmin())
+    from .account.models import User
+    from .task.models import Task, Category 
+    admin.add_view(AdminModelView(User, db.session, name='Users'))
+    admin.add_view(TodoModelView(Task, db.session, name='Tasks', endpoint="tasks_"))
+    admin.add_view(AdminModelView(Category, db.session, name='Categories'))
+    admin.add_view(CustomFileAdmin(app.static_folder, '/static/', name='Static Files'))
 
     with app.app_context():
         from app.home import home_bp
